@@ -1,0 +1,8 @@
+target/
+.idea/
+build/
+target
+*.xml
+.allure/
+.mvn
+.main/
