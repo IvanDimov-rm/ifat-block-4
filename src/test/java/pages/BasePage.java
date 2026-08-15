@@ -22,5 +22,5 @@ public class BasePage {
     }
     public boolean pageIsOpen() {
         return browser.findElement(pageName).isDisplayed();
-}
+    }
 }
