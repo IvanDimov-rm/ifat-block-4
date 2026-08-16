@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,14 +14,36 @@ public class BasePage {
     public static final String TEXT_LOCATOR_PATTERN = "//*[text()='%s']";
     private final By pageName = By.cssSelector(DATA_TEST_PATTERN.formatted("title"));
 
-    WebDriver browser;
+    WebDriver driver;
     WebDriverWait wait;
 
-    public BasePage(WebDriver browser) {
-        this.browser = browser;
-        this.wait = new WebDriverWait(browser, Duration.ofSeconds(5));
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        @Step("Открытие страницы")
+        public boolean pageIsOpen() {
+            return driver.findElement(pageName).isDisplayed();
+        }
+
+        @Step("Получение названия страницы")
+        public String getNamePage() {
+            return driver.findElement(pageName).getText();
+        }
+
+        @Step("Проверяем отображается ли сообщение об ошибке")
+        public boolean isErrorDisplayed() {
+            return driver.findElement(error).isDisplayed();
+        }
+
+        @Step("Проверяем текст сообщения об ошибке")
+        public String getErrorText() {
+            return driver.findElement(errorText).getText();
+        }
+
+        @Step("Отмена заказа")
+        public void switchToProducts(final String selectorName) {
+            By selector = By.cssSelector(selectorName);
+            driver.findElement(selector).click();
+        }
     }
-    public boolean pageIsOpen() {
-        return browser.findElement(pageName).isDisplayed();
-    }
-}
