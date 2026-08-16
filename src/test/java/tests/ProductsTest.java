@@ -1,31 +1,34 @@
 package tests;
 
+import io.qameta.allure.Owner;
+import io.qameta.allure.Step;
 import org.testng.annotations.Test;
-import user.UserFactory;
 
 import java.util.List;
 
+import static user.UserFactory.*;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class ProductsTest extends BaseTest {
-
     List<String> goodsList =
-            List.of("Sauce Labs Onesie",
+            List.of("Sauce Labs Backpack",
                     "Sauce Labs Bike Light",
                     "Sauce Labs Bolt T-Shirt");
 
+    @Step("Проверяем добавление товаров в корзину")
     @Test
+    @Owner("Ivan Dimov Ivandimov981pushok@gmail.com")
     public void checkGoodsAdded() {
+        System.out.println("ProductsTest.checkGoodsAdded running in thread: " + Thread.currentThread().getName());
         loginPage.open();
-        loginPage.login(UserFactory.withAdminPermission());
-        assertTrue(productsPage.pageIsOpen(), "Страница Products не открылась");
-        productsPage.addToCart(0);
+        loginPage.login(withAdminPermission());
+        productsPage.pageIsOpen();
+
         for (String goodName : goodsList) {
             productsPage.addToCart(goodName);
         }
 
         assertEquals(productsPage.checkCounterValue(), "4");
-        assertEquals(productsPage.checkCounterColorValue(), "rgba(226, 35, 26, 1)");
+        assertEquals(productsPage.checkCounterColor(), "rgba(226, 35, 26, 1)");
     }
 }

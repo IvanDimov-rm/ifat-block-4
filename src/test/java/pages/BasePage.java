@@ -11,7 +11,8 @@ import java.time.Duration;
 public class BasePage {
     public static final String BASE_URL = PropertyReader.getProperty("saucedemo.url");
     public static final String DATA_TEST_PATTERN = "[data-test='%s']";
-    public static final String TEXT_LOCATOR_PATTERN = "//*[text()='%s']";
+    private final By error = By.xpath("//div[@class='error-message-container error']");
+    private final By errorText = By.cssSelector(DATA_TEST_PATTERN.formatted("error"));
     private final By pageName = By.cssSelector(DATA_TEST_PATTERN.formatted("title"));
 
     WebDriver driver;
@@ -20,6 +21,7 @@ public class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
 
         @Step("Открытие страницы")
         public boolean pageIsOpen() {
