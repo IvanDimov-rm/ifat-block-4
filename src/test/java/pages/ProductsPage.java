@@ -8,11 +8,10 @@ public class ProductsPage extends BasePage {
     private static final String ADD_TO_CART = "//*[text()='%s']//ancestor::div[@class='inventory_item']//child::*[text()='Add to cart']";
     private final By pageName = By.cssSelector(DATA_TEST_PATTERN.formatted("title"));
     private final By counter = By.cssSelector(DATA_TEST_PATTERN.formatted("shopping-cart-badge"));
-    private final By cartIcon = By.cssSelector(DATA_TEST_PATTERN.formatted("shopping-cart-link"));
-    private final By addToCartBtn = By.xpath(TEXT_LOCATOR_PATTERN.formatted("Add to cart"));
+    private final By cartLink = By.cssSelector(DATA_TEST_PATTERN.formatted("shopping-cart-link"));
 
-    public ProductsPage(WebDriver browser) {
-        super(browser);
+    public ProductsPage(WebDriver driver) {
+        super(driver);
     }
 
     @Step("Добавление товара в корзину")
