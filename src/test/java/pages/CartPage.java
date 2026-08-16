@@ -1,0 +1,37 @@
+package pages;
+
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CartPage extends BasePage {
+    private final By itemNames = By.cssSelector(".inventory_item_name");
+    private final By checkBtn = By.xpath("//button[@id='checkout']");
+
+    public CartPage(WebDriver driver) {
+        super(driver);
+    }
+
+    @Step("Получаем список товаров")
+    public ArrayList<String> getProductsNames() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(itemNames));
+
+        List<WebElement> allProductsNames = driver.findElements(itemNames);
+        ArrayList<String> names = new ArrayList<>();
+
+        for (WebElement productBlock : allProductsNames) {
+            names.add(productBlock.getText());
+        }
+        return names;
+    }
+
+    @Step("Нажимаем кнопку формирования заказа")
+    public void checkOut() {
+        driver.findElement(checkBtn).click();
+    }
+}
